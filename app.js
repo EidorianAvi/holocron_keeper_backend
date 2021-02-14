@@ -10,6 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 //Enable CORS
 app.use(cors());
 
+// Imported Routes
+const userRoute = require('./routes/users');
+
+app.use('/users', userRoute);
+
 //ROOT Route
 app.get('/', (req, res) => {
     res.send("Welcome to the back-end of Holocron Keeper");
