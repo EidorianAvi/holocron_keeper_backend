@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 //Get a single user by ID
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         res.send(user); 
@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
 });
 
 //Post a new user
-router.post('/add-user', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -39,7 +39,7 @@ router.post('/add-user', async (req, res) => {
         const savedUser =  await user.save();
         res.json(savedUser);
     } catch(e) {
-        res.json({ message: "Error"})
+        res.json({ message: e})
     }
 });
 

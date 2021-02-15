@@ -23,11 +23,11 @@ const NovelSchema = mongoose.Schema({
     },
     era: {
         type: String,
-        required: true
+        // required: true
     },
     timeline: {
         type: String,
-        required: true
+        // required: true
     }
 }, { timestamps: true });
 

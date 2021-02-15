@@ -12,8 +12,10 @@ app.use(cors());
 
 // Imported Routes
 const userRoute = require('./routes/users');
+const novelRoute = require('./routes/novels');
 
 app.use('/users', userRoute);
+app.use('/novels', novelRoute)
 
 //ROOT Route
 app.get('/', (req, res) => {
