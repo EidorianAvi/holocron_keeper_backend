@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const NovelSchema = mongoose.Schema({
+const GraphicNovelSchema = mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -27,8 +27,8 @@ const NovelSchema = mongoose.Schema({
     },
     timeline: {
         type: String,
-        required: true
+        // required: true
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Novels', NovelSchema)
+module.exports = mongoose.model('GraphicNovels', GraphicNovelSchema);
