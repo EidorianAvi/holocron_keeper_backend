@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Novel = require('../models/Novel');
+const multer = require('multer');
+const fs = require('fs');
 require('dotenv/config');
+
 
 //Get all Novels
 router.get('/', async (req, res) => {
@@ -25,6 +28,9 @@ router.get('/:id', async (req, res) => {
 
 //Post a new novel
 router.post('/', async (req, res) => {
+
+    console.log(request.file);
+
     try {
         const novel = new Novel({
             title: req.body.title,
@@ -33,7 +39,8 @@ router.post('/', async (req, res) => {
             summary: req.body.summary,
             release_date: req.body.release_date,
             era: req.body.era,
-            timeline: req.body.timeline
+            timeline: req.body.timeline,
+            book_cover: request.file.filename,
         });
 
         const savedNovel =  await novel.save();

@@ -29,7 +29,7 @@ const NovelSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    book_cover: {
         data: Buffer,
         contentType: String
     }

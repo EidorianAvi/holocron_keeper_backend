@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const multer = require('multer');
 require('dotenv/config');
 
 app.use(express.json());
