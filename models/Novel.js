@@ -29,9 +29,8 @@ const NovelSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    book_cover: {
-        data: Buffer,
-        contentType: String
+    book_cover: { 
+        type: String,
     }
 }, { timestamps: true });
 

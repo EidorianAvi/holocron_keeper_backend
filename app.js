@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv/config');
 
+//Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,6 +16,7 @@ const userRoute = require('./routes/users');
 const novelRoute = require('./routes/novels');
 const graphicNovelRoute = require('./routes/graphicNovels');
 
+app.use('/uploads', express.static('uploads'));
 app.use('/users', userRoute);
 app.use('/novels', novelRoute);
 app.use('/graphic-novels', graphicNovelRoute);

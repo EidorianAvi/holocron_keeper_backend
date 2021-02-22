@@ -2,23 +2,42 @@ const express = require('express');
 const router = express.Router();
 const Novel = require('../models/Novel');
 const multer = require('multer');
-const fs = require('fs');
 require('dotenv/config');
 
-app.post('/api/images', parser.single("image"), (req, res) => {
-    console.log(req.file) // to see what is returned to you
-    const image = {};
-    image.url = req.file.url;
-    image.id = req.file.public_id;
-    Image.create(image) // save image information in database
-      .then(newImage => res.json(newImage))
-      .catch(err => console.log(err));
-  });
+// Configure file storage properties for images via Multer
+
+const storage = multer.diskStorage({
+    destination: function(req, file, callback){
+        callback(null, './uploads/');
+    },
+    filename: function(req, file, callback){
+        callback(null, Date.now() + '-' + file.originalname)
+    },
+});
+
+
+const upload = multer({ 
+    storage: storage, 
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter(req, file, callback){
+        
+        if(!file.originalname.endsWith(".png" || ".jpg" || ".jpeg")){
+            callback(new Error("Must be an image file", false))
+        } else {
+            callback(null, true);
+        }
+    },
+});
+
+
 
 //Get all Novels
 router.get('/', async (req, res) => {
     try {
         const novels = await Novel.find();
+        // const novels = await Novel.find(null, {book_cover: 0});
         res.json(novels);
     } catch(e){
         res.json(e);
@@ -35,10 +54,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-//Post a new novel
-router.post('/', async (req, res) => {
+router.get('/:id/book_cover', async (req, res) => {
+    try{
+        const novel = await Novel.findById(req.params.id)
+        if (!novel || !novel.book_cover) {
+            console.log("hit")
+        }
+        res.set('Content-Type', 'image/jpg')
+        res.send(novel.book_cover)
+    } catch(e) {
+        res.status(404).send()
+    }
+})
 
-    console.log(request.file);
+//Post a new novel
+router.post('/', upload.single('book_cover') ,async (req, res) => {
+
+    console.log(req.file);
 
     try {
         const novel = new Novel({
@@ -49,7 +81,7 @@ router.post('/', async (req, res) => {
             release_date: req.body.release_date,
             era: req.body.era,
             timeline: req.body.timeline,
-            book_cover: request.file.filename,
+            book_cover: req.file.path,
         });
 
         const savedNovel =  await novel.save();
