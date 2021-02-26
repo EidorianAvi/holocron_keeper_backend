@@ -31,6 +31,10 @@ const NovelSchema = mongoose.Schema({
     },
     book_cover: { 
         type: String,
+    },
+    graphic_novel: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true });
 

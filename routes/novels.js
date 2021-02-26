@@ -81,6 +81,7 @@ router.post('/', upload.single('book_cover') ,async (req, res) => {
             release_date: req.body.release_date,
             era: req.body.era,
             timeline: req.body.timeline,
+            graphic_novel: req.body.graphic_novel,
             book_cover: req.file.path,
         });
 
@@ -93,7 +94,7 @@ router.post('/', upload.single('book_cover') ,async (req, res) => {
 
 
 //Update a novels info
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', upload.single('book_cover'), async (req, res) => {
     try {
         const updatedNovel = await Novel.updateOne(
             { _id: req.params.id },
@@ -104,7 +105,9 @@ router.patch('/:id', async (req, res) => {
                 summary: req.body.summary,
                 release_date: req.body.release_date,
                 era: req.body.era,
-                timeline: req.body.timeline
+                timeline: req.body.timeline,
+                graphic_novel: req.body.graphic_novel,
+                book_cover: req.file.path,
             }});
 
         res.json(updatedNovel);
